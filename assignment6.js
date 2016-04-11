@@ -15,8 +15,6 @@ var win_count = 0;
 var loss_count = 0;
 redisClient = redis.createClient();
 
-
-
 app.get("/stats", function(req, res) {
     //res.send("This is GET stats. \n Wins: "+win_count+" Loose: "+loose_count);
     //res.send("win"+win_count+"loose"+loose_count);
