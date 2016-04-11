@@ -11,22 +11,17 @@ var express = require("express"),
 app = express();
 var r = random();
 app.use(bodyParser.json());
-var win_count = 0;
-var loss_count = 0;
 redisClient = redis.createClient();
 
 app.get("/stats", function(req, res) {
-    //res.send("This is GET stats. \n Wins: "+win_count+" Loose: "+loose_count);
-    //res.send("win"+win_count+"loose"+loose_count);
-    //res.send(JSON.stringify({ "wins": win_count, "losses": loss_count }));
+    //res.send("This is GET stats.);
     redisClient.mget("win_count", "loss_count", function(err, result) {
-        var res_arr = result.toString().split(',');
+        var res_arr = result.toString().split(",");
         //console.log("This is "+res_arr[0]);
         res.send(JSON.stringify({ "wins": res_arr[0], "losses": res_arr[1] }));
     });
 
 });
-
 
 app.post("/flip", function(req, res) {
     //res.send("This is POST flip.");
@@ -39,13 +34,11 @@ app.post("/flip", function(req, res) {
     if (choice === a) {
         result = "win";
         console.log("win");
-        //win_count++;
         redisClient.incr("win_count");
     }
     else {
         result = "lose";
         console.log("loose");
-        //loss_count++;
         redisClient.incr("loss_count");
     }
     res.send(JSON.stringify({ "result": result }));
